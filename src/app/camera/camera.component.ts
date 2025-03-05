@@ -13,7 +13,7 @@ import { CameraService } from './services/camera.service';
 })
 export class CameraComponent {
   imgUrls: string[] = [];
-  hoverIndex: number = -1;
+  hoverIndex: number | null = null;
   errorMessage: string = '';
   loading: boolean = false;
 
@@ -35,11 +35,7 @@ export class CameraComponent {
       this.loading = false;
     }
   }
-
-  deleteImage(index: number) {
-    this.imgUrls.splice(index, 1);
-  }
-
+  
   deleteAllPhotos() {
     this.imgUrls = [];
   }
@@ -47,5 +43,15 @@ export class CameraComponent {
   ngOnInit() {
     console.log('CameraComponent loaded');
   }  
-  
+  toggleHoverIndex(index: number) {
+    this.hoverIndex = this.hoverIndex === index ? null : index;
+  }
+
+  deleteImage(index: number, event: Event) {
+    event.stopPropagation(); // Evita que el clic en el botón afecte al contenedor
+    this.imgUrls.splice(index, 1);
+    if (this.hoverIndex === index) {
+      this.hoverIndex = null;
+    }
+  }
 }
