@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="custom-toolbar">
     <ion-title>Galería de Imágenes</ion-title>
     <ion-buttons slot="end">
       <button (click)="takePicture()" class="take-picture-button">+</button>
@@ -11,9 +11,21 @@
 <ion-content class="ion-padding">
   <!-- Galería de Imágenes -->
   <div class="image-gallery">
-    <div *ngFor="let img of imgUrls; let i = index" class="image-wrapper" (click)="hoverIndex = (hoverIndex === i ? -1 : i)">
+    <div *ngFor="let img of imgUrls; let i = index" class="image-wrapper" 
+         (click)="toggleHoverIndex(i)">
       <img [src]="img" alt="Captured Image" class="captured-image">
-      <button *ngIf="hoverIndex === i" class="delete-btn" (click)="deleteImage(i, $event)">🗑️</button>
+      
+      <div *ngIf="hoverIndex === i" class="buttons-container">
+        <button class="delete-btn" (click)="deleteImage(i, $event)">🗑️</button>
+        <button class="view-btn" (click)="openImage(i, $event)">🔍</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para ver imagen en grande -->
+  <div *ngIf="selectedImage" class="modal" (click)="closeImage()">
+    <div class="modal-content">
+      <img [src]="selectedImage" class="full-image">
     </div>
   </div>
 </ion-content>

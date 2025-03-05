@@ -14,6 +14,7 @@ import { CameraService } from './services/camera.service';
 export class CameraComponent {
   imgUrls: string[] = [];
   hoverIndex: number | null = null;
+  selectedImage: string | null = null;
   errorMessage: string = '';
   loading: boolean = false;
 
@@ -43,6 +44,7 @@ export class CameraComponent {
   ngOnInit() {
     console.log('CameraComponent loaded');
   }  
+
   toggleHoverIndex(index: number) {
     this.hoverIndex = this.hoverIndex === index ? null : index;
   }
@@ -53,5 +55,14 @@ export class CameraComponent {
     if (this.hoverIndex === index) {
       this.hoverIndex = null;
     }
+  }
+
+  openImage(index: number, event: Event) {
+    event.stopPropagation(); // Evita cerrar la imagen cuando se hace clic en el botón
+    this.selectedImage = this.imgUrls[index];
+  }
+
+  closeImage() {
+    this.selectedImage = null;
   }
 }

@@ -1,9 +1,25 @@
+/* Estilos del encabezado */
 ion-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* Ajuste del toolbar para que sea responsivo */
+ion-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título alineado a la izquierda manteniendo la responsividad */
+ion-title {
+  flex-grow: 1;  /* Ocupa el espacio disponible */
+  text-align: left; /* Alinea el texto a la izquierda */
+  padding-left: 16px; /* Margen para evitar que toque el borde */
+}
+
+/* Botones de tomar foto y eliminar */
 .take-picture-button, .delete-all-button {
   font-size: 24px;
   width: 50px;
@@ -12,6 +28,8 @@ ion-header {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
+  cursor: pointer;
 }
 
 .take-picture-button {
@@ -24,21 +42,24 @@ ion-header {
   color: white;
 }
 
+/* Estilos de la galería de imágenes */
 .image-gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+  padding-top: 10px;
 }
 
+/* Contenedor de cada imagen */
 .image-wrapper {
   position: relative;
   width: 45%;
-  height: auto;
   display: flex;
   justify-content: center;
 }
 
+/* Estilos de las imágenes */
 .captured-image {
   width: 100%;
   height: auto;
@@ -46,10 +67,17 @@ ion-header {
   border-radius: 10px;
 }
 
-.delete-btn {
+/* Contenedor de botones sobre la imagen */
+.buttons-container {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+/* Botón de eliminar y botón de ampliar */
+.delete-btn, .view-btn {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
@@ -60,4 +88,33 @@ ion-header {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.view-btn {
+  background-color: rgba(0, 123, 255, 0.7);
+}
+
+/* Estilos para la imagen ampliada */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.full-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
