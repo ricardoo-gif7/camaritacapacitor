@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
-import { CameraComponent } from './camera/camera.component';  // Ruta de tu componente independiente
-import { IonicModule } from '@ionic/angular';
+import { CameraComponent } from './camera/camera.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [CommonModule, CameraComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  imports: [CameraComponent, IonicModule]  // Asegúrate de que CameraComponent y IonicModule estén correctamente importados
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'My App';
+  
+  ngOnInit() {
+    console.log('AppComponent loaded');
+  }
+  
+}

@@ -1,5 +1,5 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppComponent } from './app/app.component'; // Este es el componente raíz
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
 
-platformBrowserDynamic().bootstrapModule(AppComponent)
+bootstrapApplication(AppComponent)
   .catch(err => console.error(err));
