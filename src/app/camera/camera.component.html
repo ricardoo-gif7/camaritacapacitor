@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Galería de Imágenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Botones -->
+  <div class="buttons">
+    <button (click)="takePicture()" class="take-picture-button">+</button>
+    <button (click)="deleteAllPhotos()" class="delete-all-button">🗑️</button>
+  </div>
+
+  <!-- Galería de Imágenes -->
+  <div class="image-gallery">
+    <div *ngFor="let img of imgUrls; let i = index" class="image-wrapper" (mouseenter)="hoverIndex = i" (mouseleave)="hoverIndex = -1">
+      <img [src]="img" alt="Captured Image" class="captured-image">
+      <button *ngIf="hoverIndex === i" class="delete-btn" (click)="deleteImage(i)">🗑️</button>
+    </div>
+  </div>
+</ion-content>
