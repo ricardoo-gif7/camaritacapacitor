@@ -6,12 +6,10 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root'
 })
 export class CameraService {
+  private readonly STORAGE_KEY = 'gallery_images';
 
   constructor() {
     // Nota: PWA Elements debe estar inicializado en el main.ts
-    // Si no está inicializado, es posible que necesites importarlo aquí:
-    // import { defineCustomElements } from '@ionic/pwa-elements/loader';
-    // defineCustomElements(window);
   }
 
   // Verifica permisos solo si es un dispositivo nativo
@@ -65,6 +63,35 @@ export class CameraService {
       }
       
       throw error;
+    }
+  }
+
+  // Guardar las imágenes en localStorage
+  saveImagesToLocalStorage(images: string[]): void {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(images));
+    } catch (error) {
+      console.error('Error al guardar imágenes en localStorage:', error);
+    }
+  }
+
+  // Cargar las imágenes desde localStorage
+  loadImagesFromLocalStorage(): string[] {
+    try {
+      const storedImages = localStorage.getItem(this.STORAGE_KEY);
+      return storedImages ? JSON.parse(storedImages) : [];
+    } catch (error) {
+      console.error('Error al cargar imágenes desde localStorage:', error);
+      return [];
+    }
+  }
+
+  // Borrar todas las imágenes de localStorage
+  clearImagesFromLocalStorage(): void {
+    try {
+      localStorage.removeItem(this.STORAGE_KEY);
+    } catch (error) {
+      console.error('Error al borrar imágenes de localStorage:', error);
     }
   }
 }

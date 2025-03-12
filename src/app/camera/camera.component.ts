@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { CameraService } from './services/camera.service';
@@ -11,7 +11,7 @@ import { CameraService } from './services/camera.service';
   templateUrl: './camera.component.html',
   styleUrls: ['./camera.component.css']
 })
-export class CameraComponent {
+export class CameraComponent implements OnInit {
   imgUrls: string[] = [];
   hoverIndex: number | null = null;
   selectedImage: string | null = null;
@@ -19,6 +19,43 @@ export class CameraComponent {
   loading: boolean = false;
 
   constructor(private cameraService: CameraService) {}
+
+  ngOnInit() {
+    console.log('CameraComponent loaded');
+    // Cargar imágenes guardadas al iniciar el componente
+    this.loadSavedImages();
+  }
+
+  // Limpiar el hoverIndex cuando se hace clic fuera de una imagen
+  @HostListener('document:click')
+  onDocumentClick() {
+    if (this.hoverIndex !== null) {
+      this.hoverIndex = null;
+    }
+  }
+
+  // Escuchar la tecla Escape para cerrar el modal
+  @HostListener('document:keydown.escape')
+  onKeydownHandler() {
+    if (this.selectedImage) {
+      this.closeImage();
+    }
+  }
+
+  private loadSavedImages() {
+    try {
+      this.imgUrls = this.cameraService.loadImagesFromLocalStorage();
+      console.log('Imágenes cargadas desde localStorage:', this.imgUrls.length);
+    } catch (error) {
+      console.error('Error al cargar imágenes:', error);
+      this.errorMessage = 'No se pudieron cargar las imágenes guardadas';
+    }
+  }
+
+  // Guardar imágenes cada vez que la colección cambie
+  private saveImages() {
+    this.cameraService.saveImagesToLocalStorage(this.imgUrls);
+  }
 
   async takePicture() {
     this.errorMessage = '';
@@ -28,7 +65,9 @@ export class CameraComponent {
       if (!imageUrl) {
         throw new Error('No se obtuvo una imagen válida');
       }
-      this.imgUrls.push(imageUrl);
+      this.imgUrls.unshift(imageUrl); // Añadir al principio para mostrar las más recientes primero
+      // Guardar la nueva colección de imágenes
+      this.saveImages();
     } catch (error: any) {
       console.error('Error al capturar imagen:', error);
       
@@ -58,22 +97,31 @@ export class CameraComponent {
   }
   
   deleteAllPhotos() {
-    this.imgUrls = [];
+    // Pedir confirmación antes de eliminar todas las fotos
+    if (confirm('¿Estás seguro de que deseas eliminar todas las fotos?')) {
+      this.imgUrls = [];
+      // Limpiar localStorage al eliminar todas las fotos
+      this.cameraService.clearImagesFromLocalStorage();
+    }
   }
 
-  ngOnInit() {
-    console.log('CameraComponent loaded');
-  }  
-
-  toggleHoverIndex(index: number) {
+  toggleHoverIndex(index: number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.hoverIndex = this.hoverIndex === index ? null : index;
   }
 
   deleteImage(index: number, event: Event) {
     event.stopPropagation(); // Evita que el clic en el botón afecte al contenedor
-    this.imgUrls.splice(index, 1);
-    if (this.hoverIndex === index) {
-      this.hoverIndex = null;
+    // Pedir confirmación antes de eliminar
+    if (confirm('¿Eliminar esta imagen?')) {
+      this.imgUrls.splice(index, 1);
+      if (this.hoverIndex === index) {
+        this.hoverIndex = null;
+      }
+      // Actualizar localStorage al eliminar una imagen
+      this.saveImages();
     }
   }
 
