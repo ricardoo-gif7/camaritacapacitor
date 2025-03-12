@@ -1,55 +1,50 @@
 ion-header {
   width: 100%;
 }
-
-ion-toolbar {
-  --background: #2c2c2c;
-  --color: white;
+/* Reset Ionic overrides */
+ion-header, ion-toolbar, ion-buttons, ion-button {
+  all: unset !important;
 }
-
-ion-title {
-  flex-grow: 1;
-  text-align: left;
-  padding-left: 16px;
-}
-
-.buttons-container {
+/* Replace all Ionic header styles with our custom implementation */
+.custom-header {
+  width: 100%;
+  height: 56px;
+  background-color: #000000;
+  color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
 }
 
-ion-buttons[slot="end"] {
-  display: flex !important;
-  flex-direction: row !important;
+.header-title {
+  font-size: 20px;
+  font-weight: 500;
 }
 
-.take-picture-button {
-  --background: #3880ff;
-  --border-radius: 50%;
-  --padding-start: 0;
-  --padding-end: 0;
+.header-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.circular-button {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 24px;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
-.delete-all-button {
-  --background: #eb445a;
-  --border-radius: 50%;
-  --padding-start: 0;
-  --padding-end: 0;
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
-}
-
-.take-picture-button {
+.plus-button {
   background-color: #3880ff;
   color: white;
 }
 
-.delete-all-button {
+.trash-button {
   background-color: #eb445a;
   color: white;
 }
