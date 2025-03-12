@@ -1,11 +1,13 @@
 <ion-header>
-  <ion-toolbar class="custom-toolbar">
+  <ion-toolbar>
     <ion-title>Galería de Imágenes</ion-title>
     <ion-buttons slot="end">
-      <button (click)="takePicture()" class="take-picture-button" [disabled]="loading">
+      <ion-button (click)="takePicture()" class="take-picture-button" [disabled]="loading">
         {{ loading ? '⏳' : '+' }}
-      </button>
-      <button (click)="deleteAllPhotos()" class="delete-all-button" [disabled]="imgUrls.length === 0 || loading">🗑️</button>
+      </ion-button>
+      <ion-button (click)="deleteAllPhotos()" class="delete-all-button" [disabled]="imgUrls.length === 0 || loading">
+        🗑️
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

@@ -3,11 +3,8 @@ ion-header {
 }
 
 ion-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding-right: 10px;
+  --background: #2c2c2c;
+  --color: white;
 }
 
 ion-title {
@@ -21,15 +18,30 @@ ion-title {
   align-items: center;
 }
 
-.take-picture-button, .delete-all-button {
-  font-size: 24px;
-  border-radius: 50%;
+ion-buttons[slot="end"] {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.take-picture-button {
+  --background: #3880ff;
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 5px;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.delete-all-button {
+  --background: #eb445a;
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
 }
 
 .take-picture-button {
