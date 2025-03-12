@@ -54,7 +54,7 @@ export class CameraService {
       }
       
       return image.webPath;
-      
+
     } catch (error: any) {
       console.error('Error en CameraService.takePicture:', error);
       
