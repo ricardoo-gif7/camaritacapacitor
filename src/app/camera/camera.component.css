@@ -1,35 +1,35 @@
-/* Estilos del encabezado */
 ion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
 }
 
-/* Ajuste del toolbar para que sea responsivo */
 ion-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding-right: 10px;
 }
 
-/* Título alineado a la izquierda manteniendo la responsividad */
 ion-title {
-  flex-grow: 1;  /* Ocupa el espacio disponible */
-  text-align: left; /* Alinea el texto a la izquierda */
-  padding-left: 16px; /* Margen para evitar que toque el borde */
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 16px;
 }
 
-/* Botones de tomar foto y eliminar */
+.buttons-container {
+  display: flex;
+  align-items: center;
+}
+
 .take-picture-button, .delete-all-button {
   font-size: 24px;
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  border: none;
-  cursor: pointer;
+  justify-content: center;
+  margin-left: 5px;
 }
 
 .take-picture-button {
