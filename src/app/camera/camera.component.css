@@ -1,224 +1,127 @@
 ion-header {
   width: 100%;
 }
-
 /* Reset Ionic overrides */
 ion-header, ion-toolbar, ion-buttons, ion-button {
   all: unset !important;
 }
-
-/* Diseño mejorado del header */
+/* Replace all Ionic header styles with our custom implementation */
 .custom-header {
   width: 100%;
-  height: 60px;
-  background-color:#222222;
+  height: 56px;
+  background-color: #222222;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .header-title {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .header-buttons {
   display: flex;
   flex-direction: row;
-  gap: 12px;
 }
 
 .circular-button {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-}
-
-.circular-button:active {
-  transform: scale(0.95);
-}
-
-.circular-button:disabled {
-  opacity: 0.6;
-  transform: none;
+  font-size: 24px;
+  margin-left: 10px;
 }
 
 .plus-button {
-  background: linear-gradient(to bottom right, #00c853, #009624);
+  background-color: #3880ff;
   color: white;
 }
 
 .trash-button {
-  background: linear-gradient(to bottom right, #f44336, #d32f2f);
+  background-color: #eb445a;
   color: white;
 }
 
-/* Estilos mejorados para la galería */
+/* Estilos de la galería de imágenes */
 .image-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 10px;
 }
 
 /* Contenedor de cada imagen */
 .image-wrapper {
   position: relative;
-  width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  aspect-ratio: 1/1;
-}
-
-.image-wrapper:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  width: 45%;
+  display: flex;
+  justify-content: center;
 }
 
 /* Estilos de las imágenes */
 .captured-image {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 /* Contenedor de botones sobre la imagen */
 .buttons-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  top: 10px;
+  right: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
+  gap: 5px;
 }
 
-/* Botones de acción */
+/* Botón de eliminar y botón de ampliar */
 .delete-btn, .view-btn {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #333;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 18px;
-  transition: all 0.2s;
 }
 
-.delete-btn:hover {
-  background-color: #f44336;
-  color: white;
+.view-btn {
+  background-color: rgba(0, 123, 255, 0.7);
 }
 
-.view-btn:hover {
-  background-color: #2196f3;
-  color: white;
-}
-
-/* Mensaje cuando no hay imágenes */
-.no-images-message {
-  margin: 40px auto;
-  text-align: center;
-  color: #757575;
-  font-size: 16px;
-  padding: 20px;
-  background-color: #222222;
-  border-radius: 10px;
-  max-width: 400px;
-}
-
-/* Loading indicator */
-.loading-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  gap: 10px;
-}
-
-/* Estilos para el modal */
+/* Estilos para la imagen ampliada */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(24, 24, 24, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(8px);
-  z-index: 1000;
+  backdrop-filter: blur(10px);
 }
 
 .modal-content {
-  position: relative;
   max-width: 90%;
   max-height: 90%;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .full-image {
   width: 100%;
   height: auto;
-  display: block;
-}
-
-.close-modal-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 18px;
-  z-index: 1001;
-}
-
-/* Error message styles */
-ion-item.error-message {
-  --background: rgba(244, 67, 54, 0.1);
-  --border-radius: 8px;
-  margin: 10px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.image-wrapper {
-  animation: fadeIn 0.3s ease;
+  border-radius: 10px;
 }
