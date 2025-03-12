@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, PermissionStatus } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 
 @Injectable({
@@ -7,58 +7,63 @@ import { Capacitor } from '@capacitor/core';
 })
 export class CameraService {
 
-  constructor() { }
+  constructor() {
+    // Nota: PWA Elements debe estar inicializado en el main.ts
+    // Si no está inicializado, es posible que necesites importarlo aquí:
+    // import { defineCustomElements } from '@ionic/pwa-elements/loader';
+    // defineCustomElements(window);
+  }
 
+  // Verifica permisos solo si es un dispositivo nativo
   private async checkPermissions(): Promise<void> {
-    const check = async (permission: PermissionStatus): Promise<boolean> => {
-      if (permission.camera !== 'granted' || permission.photos !== 'granted') {
-        const request = await Camera.requestPermissions();
-        return request.camera === 'granted' && request.photos === 'granted';
-      }
-      return true;
-    };
-
-    if (Capacitor.isNativePlatform()) {
-      const permissions = await Camera.checkPermissions();
-      if (!(await check(permissions))) {
+    if (!Capacitor.isNativePlatform()) return;
+    
+    const permissions = await Camera.checkPermissions();
+    if (permissions.camera !== 'granted') {
+      const request = await Camera.requestPermissions();
+      if (request.camera !== 'granted') {
         throw new Error('Permisos de cámara no otorgados');
       }
     }
   }
 
+  // Toma una foto directamente con la cámara
   async takePicture(): Promise<string> {
-    await this.checkPermissions();
-
-    if (Capacitor.isNativePlatform()) {
-      // En Android/iOS
-      const image = await Camera.getPhoto({
+    try {
+      await this.checkPermissions();
+      
+      // Configuración específica para forzar la apertura de la cámara
+      const options = {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
-
-      return image.webPath ?? '';
-    } else {
-      // En la web, usar un input file
-      return new Promise((resolve, reject) => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (event: any) => {
-          const file = event.target.files[0];
-          if (!file) {
-            reject('No se seleccionó una imagen');
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = () => reject('Error al leer la imagen');
-          reader.readAsDataURL(file);
-        };
-        input.click();
-      });
+        source: CameraSource.Camera, // Forzar uso de cámara
+        correctOrientation: true,
+        // Estas opciones son importantes para web
+        webUseInput: false, // No use input html
+        promptLabelHeader: 'Cámara',
+        promptLabelPhoto: 'Tomar foto',
+        promptLabelPicture: 'Capturar foto',
+        saveToGallery: false // No guardar en galería
+      };
+      
+      const image: Photo = await Camera.getPhoto(options);
+      
+      if (!image || !image.webPath) {
+        throw new Error('No se pudo obtener la imagen');
+      }
+      
+      return image.webPath;
+    } catch (error: any) {
+      console.error('Error en CameraService.takePicture:', error);
+      
+      // Si el error es que no se encontraron los PWA Elements
+      if (error.message && error.message.includes('PWA Element')) {
+        console.warn('PWA Elements no encontrados. Asegúrate de agregarlos en main.ts');
+        throw new Error('No se pudo inicializar la cámara web. Verifica la configuración de PWA Elements');
+      }
+      
+      throw error;
     }
   }
 }

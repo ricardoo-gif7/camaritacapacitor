@@ -29,10 +29,30 @@ export class CameraComponent {
         throw new Error('No se obtuvo una imagen válida');
       }
       this.imgUrls.push(imageUrl);
-      this.loading = false;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al capturar imagen:', error);
-      this.errorMessage = String(error);
+      
+      // Manejo de errores específicos para mejorar la experiencia del usuario
+      if (typeof error === 'string') {
+        this.errorMessage = error;
+      } else if (error.message) {
+        if (error.message.includes('cancelled') || error.message.includes('User cancelled')) {
+          // El usuario canceló la operación
+          this.errorMessage = 'Operación cancelada por el usuario';
+        } else if (error.message.includes('PWA Element')) {
+          // Problema con PWA Elements
+          this.errorMessage = 'Error de configuración: PWA Elements no encontrados';
+        } else if (error.message.includes('camera') || error.message.includes('permission')) {
+          // Problema de permisos
+          this.errorMessage = 'No se pudo acceder a la cámara. Verifica los permisos';
+        } else {
+          // Error general
+          this.errorMessage = `Error: ${error.message}`;
+        }
+      } else {
+        this.errorMessage = 'Error desconocido al tomar la foto';
+      }
+    } finally {
       this.loading = false;
     }
   }
